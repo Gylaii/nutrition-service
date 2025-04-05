@@ -1,0 +1,14 @@
+ktor:
+    application:
+        modules:
+            - com.gulaii.ApplicationKt.module
+    deployment:
+        port: 8080
+postgres:
+  url: "jdbc:postgresql://localhost/nutrition-db"
+  user: postgres
+  password: postgres
+clickhouse:
+  url: "jdbc:clickhouse://localhost:8123/nutrition_db"
+  user: postgres
+  password: postgres
