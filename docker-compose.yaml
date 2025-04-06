@@ -19,3 +19,23 @@ services:
     ports:
       - "8123:8123"
       - "9000:9000"
+  keydb:
+    image: eqalpha/keydb:latest
+    container_name: keydb
+    restart: always
+    ports:
+      - "6379:6379"
+    command: keydb-server /etc/keydb/keydb.conf --appendonly yes
+    healthcheck:
+      test: [ "CMD", "keydb-cli", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+  redis-cli:
+    image: redis:latest
+    container_name: redis-cli
+    depends_on:
+      - keydb
+    entrypoint: [ "tail", "-f", "/dev/null" ] # чтобы контейнер не завершался сразу
+    networks:
+      - default

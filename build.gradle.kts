@@ -37,8 +37,9 @@ dependencies {
     implementation("io.ktor:ktor-server-netty")
     implementation("io.insert-koin:koin-ktor:$koinVersion")
     implementation("io.insert-koin:koin-annotations:$koinAnnotationsVersion")
-    ksp("io.insert-koin:koin-ksp-compiler:$koinAnnotationsVersion")
+    implementation("io.lettuce:lettuce-core:6.2.4.RELEASE")
     implementation(libs.clickhouse)
+    ksp("io.insert-koin:koin-ksp-compiler:$koinAnnotationsVersion")
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
 }
