@@ -61,7 +61,7 @@ class NutritionServiceRequestsListener(
                 """.trimIndent()
                 )
                 headers.apply {
-                    append("Authorization", "Token token=\"${System.getenv("OPENFOOD_REPO_API_KEY")}\"")
+                    append("Authorization", "Token token=\"$API_TOKEN\"")
                 }
 
             }.bodyAsText().let { objectMapper.readValue<SearchMealResponseBody>(it) }
@@ -81,5 +81,6 @@ class NutritionServiceRequestsListener(
     companion object {
         const val REQUESTS_CHANNEL = "nutrition-service:request-channel"
         const val RESPONSE_CHANNEL = "nutrition-service:response-channel"
+        val API_TOKEN: String = System.getenv("OPENFOOD_REPO_API_KEY")
     }
 }
