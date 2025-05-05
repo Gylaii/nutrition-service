@@ -1,10 +1,8 @@
-val kspVersion = "2.0.21-1.0.28"
 plugins {
-    val kspVersion = "2.0.21-1.0.28"
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlin.plugin.serialization)
-    id("com.google.devtools.ksp") version kspVersion
+    id("com.google.devtools.ksp") version "2.0.21-1.0.28"
 }
 
 group = "com.gulaii"
@@ -18,7 +16,9 @@ application {
 }
 
 repositories {
+    google()
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 val koinVersion = "4.0.2"
@@ -43,6 +43,7 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:1.5.2")
     implementation("io.ktor:ktor-client-logging:${libs.versions.ktor.version}")
     implementation("io.ktor:ktor-client-content-negotiation:3.1.2")
+    implementation("com.github.Gylaii:keydb-client-lib:v0.1.1")
     ksp("io.insert-koin:koin-ksp-compiler:$koinAnnotationsVersion")
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
