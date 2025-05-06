@@ -1,5 +1,6 @@
 package com.gulaii.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
@@ -16,6 +17,8 @@ sealed class ResponseMessage {
     abstract val type: String
 
     data class SearchMeal(
+        @JsonProperty("correlationId")
+        val correlationId: String,
         val total: Int,
         val data: List<Hit>,
     ): ResponseMessage() {

@@ -71,6 +71,7 @@ class NutritionServiceRequestsListener(
             RESPONSE_CHANNEL,
             objectMapper.writeValueAsString(
                 ResponseMessage.SearchMeal(
+                    correlationId = requestDto.correlationId,
                     total = response.hits.total,
                     data = response.hits.hits,
                 )

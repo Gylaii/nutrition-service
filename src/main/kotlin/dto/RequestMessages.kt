@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 )
 sealed class RequestMessage {
     abstract val type: String
+    abstract val correlationId: String
 
     data class SearchMeal(
         @JsonProperty("search_term")
@@ -23,6 +24,8 @@ sealed class RequestMessage {
         val page: Int,
         @JsonProperty("page_size")
         val pageSize: Int,
+        @JsonProperty("correlation_id")
+        override val correlationId: String,
     ) : RequestMessage() {
         override val type = "SEARCH_MEAL"
     }
