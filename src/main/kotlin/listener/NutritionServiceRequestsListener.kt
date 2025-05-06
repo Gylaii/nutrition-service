@@ -67,7 +67,7 @@ class NutritionServiceRequestsListener(
             }.bodyAsText().let { objectMapper.readValue<SearchMealResponseBody>(it) }
         }
 
-        keyDbClient.pub(
+        keyDbClient.push(
             RESPONSE_CHANNEL,
             objectMapper.writeValueAsString(
                 ResponseMessage.SearchMeal(
