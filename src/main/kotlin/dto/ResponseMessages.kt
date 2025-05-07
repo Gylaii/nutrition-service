@@ -17,7 +17,7 @@ sealed class ResponseMessage {
     abstract val type: String
 
     data class SearchMeal(
-        @JsonProperty("correlationId")
+        @JsonProperty("correlation_id")
         val correlationId: String,
         val total: Int,
         val data: List<Hit>,
