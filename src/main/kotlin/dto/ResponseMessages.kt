@@ -1,6 +1,5 @@
 package com.gulaii.dto
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
@@ -14,14 +13,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = ResponseMessage.SearchMeal::class, name = "SEARCH_MEAL"),
 )
 sealed class ResponseMessage {
-    abstract val type: String
+    abstract val correlationId: String
+    abstract val payload: String
 
     data class SearchMeal(
-        @JsonProperty("correlation_id")
-        val correlationId: String,
+        override val correlationId: String,
+        override val payload: String,
+    ): ResponseMessage()
+
+    data class SearchMealData(
         val total: Int,
         val data: List<Hit>,
-    ): ResponseMessage() {
-        override val type: String = "SEARCH_MEAL"
-    }
+        val type: String = "SEARCH_MEAL"
+    )
 }

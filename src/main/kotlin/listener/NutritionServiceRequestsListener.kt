@@ -67,13 +67,17 @@ class NutritionServiceRequestsListener(
             }.bodyAsText().let { objectMapper.readValue<SearchMealResponseBody>(it) }
         }
 
-        keyDbClient.push(
+        keyDbClient.pub(
             RESPONSE_CHANNEL,
             objectMapper.writeValueAsString(
                 ResponseMessage.SearchMeal(
                     correlationId = requestDto.correlationId,
-                    total = response.hits.total,
-                    data = response.hits.hits,
+                    payload = objectMapper.writeValueAsString(
+                        ResponseMessage.SearchMealData(
+                            total = response.hits.total,
+                            data = response.hits.hits,
+                        )
+                    ),
                 )
             ),
         )
