@@ -32,7 +32,7 @@ data class Source(
     val nameTranslations: Map<String, String>,
 
     @JsonProperty("nutrients")
-    val nutrients: Nutrients,
+    val nutrients: Nutrients?,
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
