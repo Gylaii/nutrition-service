@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.gulaii.dto.RequestMessage
 import com.gulaii.dto.ResponseMessage
 import com.gulaii.dto.SearchMealResponseBody
+import com.gulaii.repository.TestRepositoryImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory
 @Single(createdAtStart = true)
 class NutritionServiceRequestsListener(
     private val keyDbClient: KeyDBClient,
+    private val testRepositoryImpl: TestRepositoryImpl,
     private val objectMapper: ObjectMapper,
     private val httpClient: HttpClient,
 ) {
@@ -27,8 +29,38 @@ class NutritionServiceRequestsListener(
             logger.info("Получено сообщение в Pub/Sub канале \"$REQUESTS_CHANNEL\": $message")
             when (val requestDto = objectMapper.readValue<RequestMessage>(message)) {
                 is RequestMessage.SearchMeal -> processSearchMealRequest(requestDto)
+                is RequestMessage.SaveMeal -> processSaveMealRequest(requestDto)
+                is RequestMessage.GetMeal -> processGetMealRequest(requestDto)
             }
         }
+    }
+
+    private fun processGetMealRequest(requestDto: RequestMessage.GetMeal) {
+        val response = testRepositoryImpl.getAllMealsWithDishes()
+
+        keyDbClient.pub(
+            RESPONSE_CHANNEL,
+            objectMapper.writeValueAsString(
+                ResponseMessage.SearchMeal(
+                    correlationId = requestDto.correlationId,
+                    payload = objectMapper.writeValueAsString(response),
+                )
+            ),
+        )
+    }
+
+    private fun processSaveMealRequest(requestDto: RequestMessage.SaveMeal) {
+        testRepositoryImpl.saveMeal(requestDto)
+
+        keyDbClient.pub(
+            RESPONSE_CHANNEL,
+            objectMapper.writeValueAsString(
+                ResponseMessage.SearchMeal(
+                    correlationId = requestDto.correlationId,
+                    payload = "",
+                )
+            ),
+        )
     }
 
     private fun processSearchMealRequest(requestDto: RequestMessage.SearchMeal) {
