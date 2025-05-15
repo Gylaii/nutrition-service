@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 @JsonSubTypes(
     JsonSubTypes.Type(value = RequestMessage.SearchMeal::class, name = "SEARCH_MEAL"),
     JsonSubTypes.Type(value = RequestMessage.SaveMeal::class, name = "SAVE_MEAL"),
-    JsonSubTypes.Type(value = RequestMessage.SaveMeal::class, name = "GET_MEAL"),
+    JsonSubTypes.Type(value = RequestMessage.GetMeal::class, name = "GET_MEAL"),
 )
 sealed class RequestMessage {
     abstract val type: String

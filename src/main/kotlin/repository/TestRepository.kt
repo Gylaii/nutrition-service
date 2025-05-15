@@ -35,7 +35,7 @@ class TestRepositoryImpl(@Qualifier(name = "pgDataSource") val ds: DataSource) :
                 """.trimIndent()
             ).execute()
             it.prepareStatement("""
-                CREATE TABLE dishes (
+                CREATE TABLE IF NOT EXISTS dishes (
                     id SERIAL PRIMARY KEY,
                     meal_id INTEGER NOT NULL REFERENCES meals(id) ON DELETE CASCADE,
                     name VARCHAR NOT NULL,
